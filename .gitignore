@@ -1,0 +1,11 @@
+bootstrap-4.*
+node_modules
+.vscode
+bin
+notes.level
+dist
+log
+ch_07.sqlite3
+notes-sequelize.sqlite3
+notes.sqlite3
+sessions%   
