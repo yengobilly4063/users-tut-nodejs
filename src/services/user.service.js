@@ -6,6 +6,7 @@ import {
     sanitizedUser,
     userQueryParams,
 } from '../models/users-sequelize.js';
+import { comparePassword } from '../utils/password-bcrypt.js';
 
 export async function findOrCreateUser(req, res, next) {
     try {
@@ -118,6 +119,7 @@ export async function checkUserPassword(req, res, next) {
         const user = await SQUser.findOne({
             where: { username: req.query.username },
         });
+
         let checked;
         if (!user) {
             checked = {
@@ -125,14 +127,15 @@ export async function checkUserPassword(req, res, next) {
                 username: req.query.username,
                 message: 'Could not find user',
             };
-        } else if (user.username === req.query.username && user.password === req.query.password) {
-            checked = { check: true, username: user.username };
         } else {
-            checked = {
-                check: false,
-                username: req.query.username,
-                message: 'Incorrect password',
-            };
+            let pwcheck = await comparePassword(req.query.password, user.password);
+            pwcheck
+                ? (checked = { check: pwcheck, username: user.username, message: undefined })
+                : (checked = {
+                      checked: pwcheck,
+                      username: req.query.username,
+                      message: 'Incorrect username or password',
+                  });
         }
         res.contentType = 'json';
         res.send(checked);

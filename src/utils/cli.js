@@ -1,6 +1,7 @@
 import { default as program } from 'commander';
 import { default as restify } from 'restify-clients';
 import * as util from 'util';
+import { hashPassword } from './password-bcrypt.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -46,18 +47,19 @@ program
     .option('--given-name <givenName>', 'Given name, or first name, of the user')
     .option('--middle-name <middleName>', 'Middle name of the user')
     .option('--email <email>', 'Email address for the user')
-    .action((username, cmdObj) => {
+    .action(async (username, cmdObj) => {
+        const { familyName, givenName, middleName, email, password } = cmdObj;
         const topost = {
             username,
-            password: cmdObj.password,
+            password: await hashPassword(password),
             provider: 'local',
-            familyName: cmdObj.familyName,
-            givenName: cmdObj.givenName,
-            middleName: cmdObj.middleName,
+            familyName,
+            givenName,
+            middleName,
             emails: [],
             photos: [],
         };
-        if (typeof cmdObj.email !== 'undefined') topost.emails.push(cmdObj.email);
+        if (typeof email !== 'undefined') topost.emails.push(email);
 
         const options = {
             path: '/create-user',
@@ -77,18 +79,19 @@ program
     .option('--given-name <givenName>', 'Given name, or first name, of the user')
     .option('--middle-name <middleName>', 'Middle name of the user')
     .option('--email <email>', 'Email address for the user')
-    .action((username, cmdObj) => {
+    .action(async (username, cmdObj) => {
+        const { familyName, givenName, middleName, email, password } = cmdObj;
         const topost = {
             username,
-            password: cmdObj.password,
+            password: await hashPassword(password),
             provider: 'local',
-            familyName: cmdObj.familyName,
-            givenName: cmdObj.givenName,
-            middleName: cmdObj.middleName,
+            familyName,
+            givenName,
+            middleName,
             emails: [],
             photos: [],
         };
-        if (typeof cmdObj.email !== 'undefined') topost.emails.push(cmdObj.email);
+        if (typeof email !== 'undefined') topost.emails.push(email);
 
         const options = {
             path: '/find-or-create',
@@ -130,17 +133,19 @@ program
     .option('--given-name <givenName>', 'Given name, or first name, of the user')
     .option('--middle-name <middleName>', 'Middle name of the user')
     .option('--email <email>', 'Email address for the user')
-    .action((username, cmdObj) => {
+    .action(async (username, cmdObj) => {
+        const { familyName, givenName, middleName, email, password } = cmdObj;
         const topost = {
             username,
-            password: cmdObj.password,
-            familyName: cmdObj.familyName,
-            givenName: cmdObj.givenName,
-            middleName: cmdObj.middleName,
+            password: await hashPassword(password),
+            provider: 'local',
+            familyName,
+            givenName,
+            middleName,
             emails: [],
             photos: [],
         };
-        if (typeof cmdObj.email !== 'undefined') topost.emails.push(cmdObj.email);
+        if (typeof email !== 'undefined') topost.emails.push(email);
 
         const options = {
             path: `/update-user/${username}`,
