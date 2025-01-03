@@ -43,8 +43,11 @@ server.post('/update-user/:username', updateUser);
 server.del('/destroy/:username', deleteUser);
 server.post('/password-check', checkUserPassword);
 
-server.listen(process.env.PORT, 'localhost', function () {
-    log(server.name + ' listening at ' + server.url);
+const host = process.env.REST_LISTEN ? process.env.REST_LISTEN : 'localhost';
+const port = process.env.PORT ? process.env.PORT : 3001;
+
+server.listen(port, host, function () {
+    log(`${server.name} listening at ${server.url}`);
 });
 
 process.on('uncaughtException', function (err) {
