@@ -8,7 +8,8 @@
         "start": "cross-env DEBUG=users:* PORT=5858  node src/user-server.js",
         "on-server": "cross-env DEBUG=users:* PORT=5858 REST_LISTEN=0.0.0.0 SEQUELIZE_CONNECT=src/models/sequelize-mysql.yaml  node src/user-server.js",
         "dev": "cross-env DEBUG=users:* PORT=5858  nodemon src/user-server.js",
-        "cli": "node src/utils/cli.js add --password pass --family-name erenika --given-name Ashildr --email me@stolen.tardis me"
+        "cli": "node src/utils/cli.js add --password pass --family-name erenika --given-name Ashildr --email me@stolen.tardis me",
+        "docker-build": "docker build -t svc-userauth ."
     },
     "author": "Bill Yengo",
     "license": "MIT",
