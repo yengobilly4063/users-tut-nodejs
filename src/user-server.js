@@ -44,7 +44,7 @@ server.del('/destroy/:username', deleteUser);
 server.post('/password-check', checkUserPassword);
 
 const host = process.env.REST_LISTEN ? process.env.REST_LISTEN : 'localhost';
-const port = process.env.PORT ? process.env.PORT : 3001;
+const port = process.env.PORT ? process.env.PORT : 5858;
 
 server.listen(port, host, function () {
     log(`${server.name} listening at ${server.url}`);

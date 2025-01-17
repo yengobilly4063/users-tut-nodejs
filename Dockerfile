@@ -12,7 +12,8 @@ ENV REST_LISTEN="0.0.0.0"
 RUN mkdir -p /userauth
 COPY . /userauth/
 WORKDIR /userauth
-RUN npm install
+# RUN npm install -g yarn --force
+RUN yarn install
 
 EXPOSE 5858
-CMD [ "node", "./src/user-server.js" ]
+CMD [ "yarn", "start" ]
